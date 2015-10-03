@@ -1,12 +1,20 @@
 from Bio import SeqIO
-aacidMassTable = {"A":}
-fasta_sequences = SeqIO.parse(open(input_file),'fasta')
-with open(output_file) as out_file:
-    for fasta in fasta_sequences:
-        name, sequence = fasta.id, fasta.seq.tostring()
-        new_sequence = some_function(sequence)
-        write_fasta(out_file)
 
-def pepCut(string):
+def trypsinCut(sequence):
     peptides = []
-    positions
+    nTerm = 0
+    cTerm = 0
+    for aa in sequence:
+        if (aa == "K" or aa == "R") and sequence[cTerm+1] != "P":
+            pep = sequence[nTerm:cTerm+1]
+            # print pep
+            peptides.append(pep)
+            nTerm = cTerm+1
+        cTerm += 1
+
+    return peptides
+
+
+fasta_sequences = SeqIO.parse(open('../../data/ups.fasta'),'fasta')
+for sequence in fasta_sequences:
+    print repr(sequence.seq[0])
